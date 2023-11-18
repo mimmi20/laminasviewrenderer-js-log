@@ -12,6 +12,7 @@ declare(strict_types = 1);
 
 namespace Mimmi20\LaminasView\JsLogger\View\Helper;
 
+use AssertionError;
 use Laminas\View\Exception\RuntimeException;
 use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Renderer\RendererInterface;
@@ -86,16 +87,17 @@ final class JsLoggerTest extends TestCase
         $route = 'test-route';
         $url   = 'https://test-uri';
 
-        $js = (string) file_get_contents(__DIR__ . '/../../../template/logger.js');
+        $js        = (string) file_get_contents(__DIR__ . '/../../../template/logger.js');
+        $jsWithUrl = sprintf($js, $url);
 
         $object = new JsLogger($route);
 
         $view    = $this->createMock(PhpRenderer::class);
-        $matcher = self::once();
+        $matcher = self::exactly(2);
         $view->expects($matcher)
             ->method('__call')
             ->willReturnCallback(
-                static function (string $method, array $argv) use ($matcher, $url, $js, $route): mixed {
+                static function (string $method, array $argv) use ($matcher, $url, $route, $jsWithUrl): mixed {
                     $invocation = $matcher->numberOfInvocations();
 
                     match ($invocation) {
@@ -105,20 +107,90 @@ final class JsLoggerTest extends TestCase
 
                     match ($invocation) {
                         1 => self::assertSame([$route], $argv, (string) $invocation),
-                        default => self::assertSame([], $argv, (string) $invocation),
+                        default => self::assertSame([$jsWithUrl], $argv, (string) $invocation),
                     };
 
                     return match ($invocation) {
                         1 => $url,
-                        default => $js,
+                        default => $jsWithUrl,
                     };
                 },
             );
 
         $object->setView($view);
 
-        $expected = sprintf($js, $url);
+        self::assertSame(sprintf("<script>\n%s\n</script>\n", $jsWithUrl), $object->render());
+    }
 
-        self::assertSame(sprintf("<script>\n%s\n</script>\n", $expected), $object->render());
+    /**
+     * @throws Exception
+     * @throws RuntimeException
+     */
+    public function testRenderWithUrlError(): void
+    {
+        $route  = 'test-route';
+        $object = new JsLogger($route);
+
+        $view = $this->createMock(PhpRenderer::class);
+        $view->expects(self::once())
+            ->method('__call')
+            ->with('url', [$route])
+            ->willReturn(true);
+
+        $object->setView($view);
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage('expected string, got bool');
+
+        $object->render();
+    }
+
+    /**
+     * @throws Exception
+     * @throws RuntimeException
+     */
+    public function testRenderWithEscapeError(): void
+    {
+        $route = 'test-route';
+        $url   = 'https://test-uri';
+
+        $js        = (string) file_get_contents(__DIR__ . '/../../../template/logger.js');
+        $jsWithUrl = sprintf($js, $url);
+
+        $object = new JsLogger($route);
+
+        $view    = $this->createMock(PhpRenderer::class);
+        $matcher = self::exactly(2);
+        $view->expects($matcher)
+            ->method('__call')
+            ->willReturnCallback(
+                static function (string $method, array $argv) use ($matcher, $url, $route, $jsWithUrl): mixed {
+                    $invocation = $matcher->numberOfInvocations();
+
+                    match ($invocation) {
+                        1 => self::assertSame('url', $method, (string) $invocation),
+                        default => self::assertSame('escapeJs', $method, (string) $invocation),
+                    };
+
+                    match ($invocation) {
+                        1 => self::assertSame([$route], $argv, (string) $invocation),
+                        default => self::assertSame([$jsWithUrl], $argv, (string) $invocation),
+                    };
+
+                    return match ($invocation) {
+                        1 => $url,
+                        default => true,
+                    };
+                },
+            );
+
+        $object->setView($view);
+
+        $this->expectException(AssertionError::class);
+        $this->expectExceptionCode(1);
+        $this->expectExceptionMessage('expected string, got bool');
+
+        $object->render();
     }
 }

@@ -73,7 +73,9 @@ final class JsLogger extends AbstractHelper
 
         assert(is_string($url), 'expected string, got ' . get_debug_type($url));
 
-        $js = sprintf($js, $url);
+        $js = $view->escapeJs(sprintf($js, $url));
+
+        assert(is_string($js), 'expected string, got ' . get_debug_type($js));
 
         return sprintf("<script>\n%s\n</script>\n", $js);
     }
