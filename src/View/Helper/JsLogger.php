@@ -50,22 +50,18 @@ final class JsLogger extends AbstractHelper
     public function render(): string
     {
         if ($this->route === null) {
-            return '';
+            throw new RuntimeException('A Route is required');
         }
 
         $view = $this->getView();
 
-        if ($view === null) {
-            throw new RuntimeException('A view Renderer is required');
-        }
-
         if (!$view instanceof PhpRenderer) {
-            return '';
+            throw new RuntimeException('A PHP View Renderer is required');
         }
 
         $js = file_get_contents(__DIR__ . '/../../../template/logger.js');
 
-        if ($js === false) {
+        if (!$js) {
             return '';
         }
 

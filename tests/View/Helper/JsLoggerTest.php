@@ -44,7 +44,11 @@ final class JsLoggerTest extends TestCase
 
         $object = new JsLogger($route);
 
-        self::assertSame('', $object->render());
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('A Route is required');
+
+        $object->render();
     }
 
     /** @throws RuntimeException */
@@ -56,7 +60,7 @@ final class JsLoggerTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionCode(0);
-        $this->expectExceptionMessage('A view Renderer is required');
+        $this->expectExceptionMessage('A PHP View Renderer is required');
 
         $object->render();
     }
@@ -75,7 +79,11 @@ final class JsLoggerTest extends TestCase
 
         $object->setView($view);
 
-        self::assertSame('', $object->render());
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionCode(0);
+        $this->expectExceptionMessage('A PHP View Renderer is required');
+
+        $object->render();
     }
 
     /**
