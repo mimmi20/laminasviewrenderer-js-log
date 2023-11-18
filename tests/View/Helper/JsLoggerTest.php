@@ -34,10 +34,7 @@ final class JsLoggerTest extends TestCase
         self::assertSame($object, $object());
     }
 
-    /**
-     * @throws Exception
-     * @throws RuntimeException
-     */
+    /** @throws RuntimeException */
     public function testRenderWithoutRoute(): void
     {
         $route = null;
@@ -65,10 +62,7 @@ final class JsLoggerTest extends TestCase
         $object->render();
     }
 
-    /**
-     * @throws Exception
-     * @throws RuntimeException
-     */
+    /** @throws RuntimeException */
     public function testRenderWithWrongRenderer(): void
     {
         $route = 'test-route';
