@@ -2,8 +2,10 @@
  * @param {Object} errorData
  */
 function logErrorData(errorData) {
+  const content = JSON.stringify(errorData);
   const headers = new Headers({
-    'Content-Type': "application/json; charset=UTF-8",
+    'Accept': 'application/json',
+    'Content-Type': 'application/json; charset=UTF-8',
     'Content-Length': content.length.toString()
   });
 
@@ -14,18 +16,15 @@ function logErrorData(errorData) {
       headers: headers,
       mode: 'cors',
       cache: 'no-cache',
-      body: JSON.stringify(errorData),
+      body: content,
       referrerPolicy: 'no-referrer'
     }
   );
 
   fetch(request)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      return response.blob();
+    .then(res => res.json())
+    .then(data => {
+      // enter your logic when the fetch is successful
     })
     .catch(error => {
       console.error(error);
@@ -33,10 +32,19 @@ function logErrorData(errorData) {
 }
 
 window.addEventListener('error', event => {
+  let message = event.error.stack ?? event.message;
+
+  // Check if error is Missing SOURCE
+  if (event.target.nodeName === 'IMG' || event.target.nodeName === 'SOURCE' || event.target.nodeName === 'IFRAME' || event.target.nodeName === 'VIDEO') {
+    message = 'Invalid or missing source';
+  }
+
   const errorData = {
-    message: event.message,
+    message: message,
     type: event.type.toString(),
     filename: event.filename ?? null,
+    line: event.lineno ?? null,
+    column: event.colno ?? null,
     element: null,
     url: window.location.href
   };
@@ -46,13 +54,7 @@ window.addEventListener('error', event => {
     errorData.element = event.target.outerHTML;
   }
 
-  // Check if error is Missing SOURCE
-  if (event.target.nodeName === 'IMG' || event.target.nodeName === 'SOURCE' || event.target.nodeName === 'IFRAME' || event.target.nodeName === 'VIDEO') {
-    errorData.message = 'Invalid or missing source';
-  }
-
   logErrorData(errorData);
-  event.preventDefault();
 });
 
 window.addEventListener('unhandledrejection', event => {
@@ -69,7 +71,6 @@ window.addEventListener('unhandledrejection', event => {
   }
 
   logErrorData(errorData);
-  event.preventDefault();
 });
 
 window.addEventListener('messageerror', event => {
@@ -86,5 +87,4 @@ window.addEventListener('messageerror', event => {
   }
 
   logErrorData(errorData);
-  event.preventDefault();
 });
