@@ -94,30 +94,11 @@ final class JsLoggerTest extends TestCase
 
         $object = new JsLogger($route);
 
-        $view    = $this->createMock(PhpRenderer::class);
-        $matcher = self::exactly(2);
-        $view->expects($matcher)
+        $view = $this->createMock(PhpRenderer::class);
+        $view->expects(self::once())
             ->method('__call')
-            ->willReturnCallback(
-                static function (string $method, array $argv) use ($matcher, $url, $route, $jsWithUrl): mixed {
-                    $invocation = $matcher->numberOfInvocations();
-
-                    match ($invocation) {
-                        1 => self::assertSame('url', $method, (string) $invocation),
-                        default => self::assertSame('escapeJs', $method, (string) $invocation),
-                    };
-
-                    match ($invocation) {
-                        1 => self::assertSame([$route], $argv, (string) $invocation),
-                        default => self::assertSame([$jsWithUrl], $argv, (string) $invocation),
-                    };
-
-                    return match ($invocation) {
-                        1 => $url,
-                        default => $jsWithUrl,
-                    };
-                },
-            );
+            ->with('url', [$route])
+            ->willReturn($url);
 
         $object->setView($view);
 
@@ -138,54 +119,6 @@ final class JsLoggerTest extends TestCase
             ->method('__call')
             ->with('url', [$route])
             ->willReturn(true);
-
-        $object->setView($view);
-
-        $this->expectException(AssertionError::class);
-        $this->expectExceptionCode(1);
-        $this->expectExceptionMessage('expected string, got bool');
-
-        $object->render();
-    }
-
-    /**
-     * @throws Exception
-     * @throws RuntimeException
-     */
-    public function testRenderWithEscapeError(): void
-    {
-        $route = 'test-route';
-        $url   = 'https://test-uri';
-
-        $js        = (string) file_get_contents(__DIR__ . '/../../../template/logger.js');
-        $jsWithUrl = sprintf($js, $url);
-
-        $object = new JsLogger($route);
-
-        $view    = $this->createMock(PhpRenderer::class);
-        $matcher = self::exactly(2);
-        $view->expects($matcher)
-            ->method('__call')
-            ->willReturnCallback(
-                static function (string $method, array $argv) use ($matcher, $url, $route, $jsWithUrl): mixed {
-                    $invocation = $matcher->numberOfInvocations();
-
-                    match ($invocation) {
-                        1 => self::assertSame('url', $method, (string) $invocation),
-                        default => self::assertSame('escapeJs', $method, (string) $invocation),
-                    };
-
-                    match ($invocation) {
-                        1 => self::assertSame([$route], $argv, (string) $invocation),
-                        default => self::assertSame([$jsWithUrl], $argv, (string) $invocation),
-                    };
-
-                    return match ($invocation) {
-                        1 => $url,
-                        default => true,
-                    };
-                },
-            );
 
         $object->setView($view);
 
