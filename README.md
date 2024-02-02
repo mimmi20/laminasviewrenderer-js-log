@@ -7,9 +7,11 @@
 ## Code Status
 
 [![codecov](https://codecov.io/gh/mimmi20/laminasviewrenderer-js-log/branch/master/graph/badge.svg)](https://codecov.io/gh/mimmi20/laminasviewrenderer-js-log)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/c559ed0e1c31ed4c51d1/test_coverage)](https://codeclimate.com/github/mimmi20/laminasviewrenderer-js-log/test_coverage)
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/mimmi20/laminasviewrenderer-js-log.svg)](https://isitmaintained.com/project/mimmi20/laminasviewrenderer-js-log "Average time to resolve an issue")
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/mimmi20/laminasviewrenderer-js-log.svg)](https://isitmaintained.com/project/mimmi20/laminasviewrenderer-js-log "Percentage of issues still open")
-[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fmimmi20%2Ftemplate%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/mimmi20/laminasviewrenderer-js-log/master)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fmimmi20%2Flaminasviewrenderer-js-log%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/mimmi20/laminasviewrenderer-js-log/master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c559ed0e1c31ed4c51d1/maintainability)](https://codeclimate.com/github/mimmi20/laminasviewrenderer-js-log/maintainability)
 
 ## Requirements
 
