@@ -40,13 +40,21 @@ final class JsLogger extends AbstractHelper
         return $this;
     }
 
-    /** @throws void */
+    /**
+     * @throws void
+     *
+     * @api
+     */
     public function getRoute(): string | null
     {
         return $this->route;
     }
 
-    /** @throws RuntimeException */
+    /**
+     * @throws RuntimeException
+     *
+     * @api
+     */
     public function render(): string
     {
         if ($this->route === null) {
