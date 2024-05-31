@@ -66,7 +66,7 @@ window.addEventListener('unhandledrejection', event => {
     url: window.location.href
   };
 
-  if (event.reason?.response.status) {
+  if (event.reason?.response?.status) {
     errorData.message = `Status: ${event.reason?.response.status} ${event.reason?.response.url} ${event.reason.stack.toString()}`
   }
 
@@ -82,7 +82,7 @@ window.addEventListener('messageerror', event => {
     url: window.location.href
   };
 
-  if (event.reason?.response.status) {
+  if (event.reason?.response?.status) {
     errorData.message = `Status: ${event.reason?.response.status} ${event.reason?.response.url} ${event.reason.stack.toString()}`
   }
 
