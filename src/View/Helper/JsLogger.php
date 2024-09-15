@@ -67,7 +67,7 @@ final class JsLogger extends AbstractHelper
             throw new RuntimeException('A PHP View Renderer is required');
         }
 
-        $js = file_get_contents(__DIR__ . '/../../../template/logger.js');
+        $js = @file_get_contents(__DIR__ . '/../../../template/logger.js');
 
         if (!$js) {
             return '';
