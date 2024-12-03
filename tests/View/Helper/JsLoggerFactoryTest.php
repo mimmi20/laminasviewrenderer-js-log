@@ -14,6 +14,7 @@ declare(strict_types = 1);
 namespace Mimmi20\LaminasView\JsLogger\View\Helper;
 
 use AssertionError;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -24,6 +25,7 @@ final class JsLoggerFactoryTest extends TestCase
     private JsLoggerFactory $object;
 
     /** @throws void */
+    #[Override]
     protected function setUp(): void
     {
         $this->object = new JsLoggerFactory();

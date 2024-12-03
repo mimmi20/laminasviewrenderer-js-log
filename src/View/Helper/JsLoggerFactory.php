@@ -14,6 +14,7 @@ declare(strict_types = 1);
 namespace Mimmi20\LaminasView\JsLogger\View\Helper;
 
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Override;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 
@@ -38,6 +39,7 @@ final class JsLoggerFactory implements FactoryInterface
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      */
+    #[Override]
     public function __invoke(ContainerInterface $container, $requestedName, array | null $options = null): JsLogger
     {
         $config = $container->get('config');

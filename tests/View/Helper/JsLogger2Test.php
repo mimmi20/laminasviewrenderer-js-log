@@ -15,6 +15,7 @@ namespace Mimmi20\LaminasView\JsLogger\View\Helper;
 
 use Laminas\View\Exception\RuntimeException;
 use Laminas\View\Renderer\PhpRenderer;
+use Override;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 
@@ -25,6 +26,7 @@ final class JsLogger2Test extends TestCase
     private JsLogger $object;
 
     /** @throws Exception */
+    #[Override]
     protected function setUp(): void
     {
         $route = 'test-route';
@@ -41,6 +43,7 @@ final class JsLogger2Test extends TestCase
     }
 
     /** @throws void */
+    #[Override]
     protected function tearDown(): void
     {
         rename(__DIR__ . '/../../../template/logger2.js', __DIR__ . '/../../../template/logger.js');
