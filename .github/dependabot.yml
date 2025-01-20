@@ -69,7 +69,6 @@ updates:
 
     rebase-strategy: "auto"
 
-
   - package-ecosystem: "composer"
 
     directory: "/"
