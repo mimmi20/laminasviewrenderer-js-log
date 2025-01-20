@@ -64,3 +64,67 @@ updates:
       - dependency-name: "mimmi20/ci"
 
     rebase-strategy: "auto"
+
+  - package-ecosystem: "composer"
+
+    directory: "/"
+
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "Europe/Berlin"
+
+    open-pull-requests-limit: 10
+
+    reviewers:
+      - "mimmi20"
+
+    assignees:
+      - "mimmi20"
+
+    labels:
+      - "dependencies"
+
+    versioning-strategy: "increase"
+
+    target-branch: "1.x"
+
+    commit-message:
+      include: "scope"
+      prefix: "composer"
+
+    ignore:
+      - dependency-name: "infection/infection"
+      - dependency-name: "nikic/php-parser"
+
+    rebase-strategy: "auto"
+
+  - package-ecosystem: "github-actions"
+
+    directory: "/"
+
+    schedule:
+      interval: "daily"
+      time: "04:00"
+      timezone: "Europe/Berlin"
+
+    open-pull-requests-limit: 10
+
+    reviewers:
+      - "mimmi20"
+
+    assignees:
+      - "mimmi20"
+
+    labels:
+      - "dependencies"
+
+    target-branch: "1.x"
+
+    commit-message:
+      prefix: "github-actions"
+
+    ignore:
+      - dependency-name: "mimmi20/ci"
+
+    rebase-strategy: "auto"
