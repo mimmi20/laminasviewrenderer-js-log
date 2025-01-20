@@ -32,7 +32,13 @@ function logErrorData(errorData) {
 }
 
 window.addEventListener('error', event => {
-  let message = event.error.stack ?? event.message;
+  let message;
+
+  if (typeof event.error === 'undefined' || event.error === null) {
+    message = event.message;
+  } else {
+    message = event.error.stack ?? event.message;
+  }
 
   // Check if error is Missing SOURCE
   if (event.target.nodeName === 'IMG' || event.target.nodeName === 'SOURCE' || event.target.nodeName === 'IFRAME' || event.target.nodeName === 'VIDEO') {
