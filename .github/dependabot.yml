@@ -66,6 +66,7 @@ updates:
 
     ignore:
       - dependency-name: "mimmi20/ci"
+      - dependency-name: "release-drafter/release-drafter"
 
     rebase-strategy: "auto"
 
@@ -95,7 +96,7 @@ updates:
 
     commit-message:
       include: "scope"
-      prefix: "composer"
+      prefix: "composer (1.x)"
 
     ignore:
       - dependency-name: "infection/infection"
@@ -126,9 +127,10 @@ updates:
     target-branch: "1.x"
 
     commit-message:
-      prefix: "github-actions"
+      prefix: "github-actions (1.x)"
 
     ignore:
       - dependency-name: "mimmi20/ci"
+      - dependency-name: "release-drafter/release-drafter"
 
     rebase-strategy: "auto"
