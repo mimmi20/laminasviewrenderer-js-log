@@ -17,8 +17,6 @@ use Mimmi20\LaminasView\JsLogger\View\Helper\JsLogger;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 
-use function realpath;
-
 final class ConfigProviderTest extends TestCase
 {
     /** @throws Exception */
@@ -42,33 +40,13 @@ final class ConfigProviderTest extends TestCase
     }
 
     /** @throws Exception */
-    public function testGetTemplates(): void
-    {
-        $object         = new ConfigProvider();
-        $templateConfig = $object->getTemplates();
-
-        self::assertIsArray($templateConfig);
-        self::assertCount(1, $templateConfig);
-
-        self::assertArrayHasKey('map', $templateConfig);
-        $map = $templateConfig['map'];
-        self::assertIsArray($map);
-        self::assertArrayHasKey('logger.phtml', $map);
-
-        self::assertSame(
-            realpath(__DIR__ . '../src/template/logger.phtml'),
-            realpath($map['logger.phtml']),
-        );
-    }
-
-    /** @throws Exception */
     public function testInvoke(): void
     {
         $object = new ConfigProvider();
         $config = $object();
 
         self::assertIsArray($config);
-        self::assertCount(2, $config);
+        self::assertCount(1, $config);
         self::assertArrayHasKey('view_helpers', $config);
 
         $viewHelperConfig = $config['view_helpers'];
@@ -84,22 +62,5 @@ final class ConfigProviderTest extends TestCase
         $aliases = $viewHelperConfig['aliases'];
         self::assertIsArray($aliases);
         self::assertArrayHasKey('jsLogger', $aliases);
-
-        self::assertArrayHasKey('templates', $config);
-
-        $templateConfig = $config['templates'];
-
-        self::assertIsArray($templateConfig);
-        self::assertCount(1, $templateConfig);
-
-        self::assertArrayHasKey('map', $templateConfig);
-        $map = $templateConfig['map'];
-        self::assertIsArray($map);
-        self::assertArrayHasKey('logger.phtml', $map);
-
-        self::assertSame(
-            realpath(__DIR__ . '../src/template/logger.phtml'),
-            realpath($map['logger.phtml']),
-        );
     }
 }

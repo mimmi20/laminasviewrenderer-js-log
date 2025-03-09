@@ -22,6 +22,8 @@ use Laminas\View\Renderer\RendererInterface;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 
+use function str_replace;
+
 final class JsLoggerTest extends TestCase
 {
     /** @throws Exception */
@@ -104,7 +106,7 @@ final class JsLoggerTest extends TestCase
     {
         $route    = 'test-route';
         $url      = 'https://test-uri';
-        $template = 'logger.phtml';
+        $template = str_replace('tests', 'src', __DIR__) . '/../../../template/logger.phtml';
         $rendered = 'test';
 
         $object = new JsLogger($route);
