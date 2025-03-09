@@ -33,6 +33,9 @@ final class Module implements ConfigProviderInterface
 
         return [
             'view_helpers' => $provider->getViewHelperConfig(),
+            'view_manager' => [
+                'template_map' => $provider->getTemplates()['map'] ?? [],
+            ],
         ];
     }
 }

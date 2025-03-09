@@ -22,7 +22,7 @@ final class ConfigProvider
      * Returns configuration from file
      *
      * @return array<array<array<string>>>
-     * @phpstan-return array{view_helpers: array{aliases: non-empty-array<string, class-string>, factories: non-empty-array<class-string, class-string>}}
+     * @phpstan-return array{view_helpers: array{aliases: non-empty-array<string, class-string>, factories: non-empty-array<class-string, class-string>}, templates: array{map: array<string, string>}}
      *
      * @throws void
      */
@@ -30,6 +30,7 @@ final class ConfigProvider
     {
         return [
             'view_helpers' => $this->getViewHelperConfig(),
+            'templates' => $this->getTemplates(),
         ];
     }
 
@@ -49,6 +50,21 @@ final class ConfigProvider
             ],
             'factories' => [
                 JsLogger::class => JsLoggerFactory::class,
+            ],
+        ];
+    }
+
+    /**
+     * @return array<array<string>>
+     * @phpstan-return array{map: array<string, string>}
+     *
+     * @throws void
+     */
+    public function getTemplates(): array
+    {
+        return [
+            'map' => [
+                'logger.phtml' => __DIR__ . '/../../template/logger.phtml',
             ],
         ];
     }

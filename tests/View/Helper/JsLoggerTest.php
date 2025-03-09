@@ -14,14 +14,13 @@ declare(strict_types = 1);
 namespace Mimmi20\LaminasView\JsLogger\View\Helper;
 
 use AssertionError;
+use Laminas\View\Exception\DomainException;
+use Laminas\View\Exception\InvalidArgumentException;
 use Laminas\View\Exception\RuntimeException;
 use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Renderer\RendererInterface;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
-
-use function file_get_contents;
-use function sprintf;
 
 final class JsLoggerTest extends TestCase
 {
@@ -35,7 +34,11 @@ final class JsLoggerTest extends TestCase
         self::assertSame($object, $object());
     }
 
-    /** @throws RuntimeException */
+    /**
+     * @throws RuntimeException
+     * @throws DomainException
+     * @throws InvalidArgumentException
+     */
     public function testRenderWithoutRoute(): void
     {
         $route = null;
@@ -49,7 +52,11 @@ final class JsLoggerTest extends TestCase
         $object->render();
     }
 
-    /** @throws RuntimeException */
+    /**
+     * @throws RuntimeException
+     * @throws DomainException
+     * @throws InvalidArgumentException
+     */
     public function testRenderWithoutRenderer(): void
     {
         $route = 'test-route';
@@ -63,7 +70,11 @@ final class JsLoggerTest extends TestCase
         $object->render();
     }
 
-    /** @throws RuntimeException */
+    /**
+     * @throws RuntimeException
+     * @throws DomainException
+     * @throws InvalidArgumentException
+     */
     public function testRenderWithWrongRenderer(): void
     {
         $route = 'test-route';
@@ -71,6 +82,8 @@ final class JsLoggerTest extends TestCase
         $object = new JsLogger($route);
 
         $view = $this->createMock(RendererInterface::class);
+        $view->expects(self::never())
+            ->method('render');
 
         $object->setView($view);
 
@@ -84,14 +97,15 @@ final class JsLoggerTest extends TestCase
     /**
      * @throws Exception
      * @throws RuntimeException
+     * @throws DomainException
+     * @throws InvalidArgumentException
      */
     public function testRender(): void
     {
-        $route = 'test-route';
-        $url   = 'https://test-uri';
-
-        $js        = (string) file_get_contents(__DIR__ . '/../../../template/logger.js');
-        $jsWithUrl = sprintf($js, $url);
+        $route    = 'test-route';
+        $url      = 'https://test-uri';
+        $template = 'logger.phtml';
+        $rendered = 'test';
 
         $object = new JsLogger($route);
 
@@ -100,15 +114,21 @@ final class JsLoggerTest extends TestCase
             ->method('__call')
             ->with('url', [$route])
             ->willReturn($url);
+        $view->expects(self::once())
+            ->method('render')
+            ->with($template, ['url' => $url])
+            ->willReturn($rendered);
 
         $object->setView($view);
 
-        self::assertSame(sprintf("<script>\n%s\n</script>\n", $jsWithUrl), $object->render());
+        self::assertSame($rendered, $object->render());
     }
 
     /**
      * @throws Exception
      * @throws RuntimeException
+     * @throws DomainException
+     * @throws InvalidArgumentException
      */
     public function testRenderWithUrlError(): void
     {
@@ -120,6 +140,8 @@ final class JsLoggerTest extends TestCase
             ->method('__call')
             ->with('url', [$route])
             ->willReturn(true);
+        $view->expects(self::never())
+            ->method('render');
 
         $object->setView($view);
 
