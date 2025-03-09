@@ -26,6 +26,7 @@ final class ConfigProviderTest extends TestCase
         $viewHelperConfig = $object->getViewHelperConfig();
 
         self::assertIsArray($viewHelperConfig);
+        self::assertCount(2, $viewHelperConfig);
 
         self::assertArrayHasKey('factories', $viewHelperConfig);
         $factories = $viewHelperConfig['factories'];
@@ -45,6 +46,7 @@ final class ConfigProviderTest extends TestCase
         $config = $object();
 
         self::assertIsArray($config);
+        self::assertCount(1, $config);
         self::assertArrayHasKey('view_helpers', $config);
 
         $viewHelperConfig = $config['view_helpers'];

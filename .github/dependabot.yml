@@ -31,7 +31,10 @@ updates:
 
     commit-message:
       include: "scope"
-      prefix: "composer"
+      prefix: "composer (master)"
+
+    ignore:
+      - dependency-name: "laminas/laminas-servicemanager"
 
     rebase-strategy: "auto"
 
@@ -58,7 +61,7 @@ updates:
     target-branch: "master"
 
     commit-message:
-      prefix: "github-actions"
+      prefix: "github-actions (master)"
 
     ignore:
       - dependency-name: "mimmi20/ci"

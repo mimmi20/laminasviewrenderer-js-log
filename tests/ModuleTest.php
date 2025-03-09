@@ -26,6 +26,7 @@ final class ModuleTest extends TestCase
         $config = $object->getConfig();
 
         self::assertIsArray($config);
+        self::assertCount(1, $config);
         self::assertArrayHasKey('view_helpers', $config);
 
         $viewHelperConfig = $config['view_helpers'];
