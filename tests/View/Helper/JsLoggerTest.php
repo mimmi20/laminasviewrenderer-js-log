@@ -19,6 +19,7 @@ use Laminas\View\Exception\InvalidArgumentException;
 use Laminas\View\Exception\RuntimeException;
 use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Renderer\RendererInterface;
+use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 
@@ -76,6 +77,9 @@ final class JsLoggerTest extends TestCase
      * @throws RuntimeException
      * @throws DomainException
      * @throws InvalidArgumentException
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
+     * @throws \PHPUnit\Framework\InvalidArgumentException
      */
     public function testRenderWithWrongRenderer(): void
     {
@@ -101,6 +105,8 @@ final class JsLoggerTest extends TestCase
      * @throws RuntimeException
      * @throws DomainException
      * @throws InvalidArgumentException
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
      */
     public function testRender(): void
     {
@@ -131,6 +137,8 @@ final class JsLoggerTest extends TestCase
      * @throws RuntimeException
      * @throws DomainException
      * @throws InvalidArgumentException
+     * @throws NoPreviousThrowableException
+     * @throws \PHPUnit\Framework\MockObject\Exception
      */
     public function testRenderWithUrlError(): void
     {
