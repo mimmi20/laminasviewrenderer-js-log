@@ -14,7 +14,7 @@ declare(strict_types = 1);
 namespace Mimmi20\LaminasView\JsLogger\View\Helper;
 
 use AssertionError;
-use Override;
+use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -22,18 +22,10 @@ use Psr\Container\NotFoundExceptionInterface;
 
 final class JsLoggerFactoryTest extends TestCase
 {
-    private JsLoggerFactory $object;
-
-    /** @throws void */
-    #[Override]
-    protected function setUp(): void
-    {
-        $this->object = new JsLoggerFactory();
-    }
-
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws Exception
      */
     public function testInvokeWithoutRoute(): void
     {
@@ -49,7 +41,7 @@ final class JsLoggerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('has');
 
-        $result = ($this->object)($container, '');
+        $result = (new JsLoggerFactory())($container, '');
 
         self::assertInstanceOf(JsLogger::class, $result);
         self::assertNull($result->getRoute());
@@ -58,6 +50,7 @@ final class JsLoggerFactoryTest extends TestCase
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws Exception
      */
     public function testInvokeWithRoute(): void
     {
@@ -74,7 +67,7 @@ final class JsLoggerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('has');
 
-        $result = ($this->object)($container, '');
+        $result = (new JsLoggerFactory())($container, '');
 
         self::assertInstanceOf(JsLogger::class, $result);
         self::assertSame($route, $result->getRoute());
@@ -83,6 +76,7 @@ final class JsLoggerFactoryTest extends TestCase
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws Exception
      */
     public function testInvokeWithoutConfig(): void
     {
@@ -100,12 +94,13 @@ final class JsLoggerFactoryTest extends TestCase
         $this->expectExceptionCode(1);
         $this->expectExceptionMessage('assert(is_array($config))');
 
-        ($this->object)($container, '');
+        (new JsLoggerFactory())($container, '');
     }
 
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws Exception
      */
     public function testInvokeWithWongRouteType(): void
     {
@@ -121,7 +116,7 @@ final class JsLoggerFactoryTest extends TestCase
         $container->expects(self::never())
             ->method('has');
 
-        $result = ($this->object)($container, '');
+        $result = (new JsLoggerFactory())($container, '');
 
         self::assertInstanceOf(JsLogger::class, $result);
         self::assertNull($result->getRoute());
@@ -130,6 +125,7 @@ final class JsLoggerFactoryTest extends TestCase
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws Exception
      */
     public function testInvokeWithWongRouteType2(): void
     {
@@ -149,6 +145,6 @@ final class JsLoggerFactoryTest extends TestCase
         $this->expectExceptionCode(1);
         $this->expectExceptionMessage('assert(is_array($config))');
 
-        ($this->object)($container, '');
+        (new JsLoggerFactory())($container, '');
     }
 }
