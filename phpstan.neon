@@ -109,6 +109,8 @@ parameters:
 
   ignoreErrors:
     - '~will always evaluate to true~'
+    - '~of deprecated class~'
+    - '~extends deprecated class Laminas\\View\\Helper\\AbstractHelper~'
 
 rules:
   # code complexity
