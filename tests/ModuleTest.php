@@ -26,7 +26,7 @@ final class ModuleTest extends TestCase
         $config = $object->getConfig();
 
         self::assertIsArray($config);
-        self::assertCount(1, $config);
+        self::assertCount(2, $config);
         self::assertArrayHasKey('view_helpers', $config);
 
         $viewHelperConfig = $config['view_helpers'];
@@ -42,5 +42,16 @@ final class ModuleTest extends TestCase
         $aliases = $viewHelperConfig['aliases'];
         self::assertIsArray($aliases);
         self::assertArrayHasKey('jsLogger', $aliases);
+
+        self::assertArrayHasKey('view_manager', $config);
+
+        $viewManagerConfig = $config['view_manager'];
+
+        self::assertIsArray($viewManagerConfig);
+
+        self::assertArrayHasKey('template_map', $viewManagerConfig);
+        $maps = $viewManagerConfig['template_map'];
+        self::assertIsArray($maps);
+        self::assertArrayHasKey('logger-template', $maps);
     }
 }

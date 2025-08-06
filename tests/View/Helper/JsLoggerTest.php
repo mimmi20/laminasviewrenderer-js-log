@@ -23,8 +23,6 @@ use PHPUnit\Event\NoPreviousThrowableException;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 
-use function str_replace;
-
 final class JsLoggerTest extends TestCase
 {
     /** @throws Exception */
@@ -112,7 +110,7 @@ final class JsLoggerTest extends TestCase
     {
         $route    = 'test-route';
         $url      = 'https://test-uri';
-        $template = str_replace('tests', 'src', __DIR__) . '/../../../template/logger.phtml';
+        $template = 'logger-template';
         $rendered = 'test';
 
         $object = new JsLogger($route);

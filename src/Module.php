@@ -22,7 +22,7 @@ final class Module implements ConfigProviderInterface
      * Returns configuration to merge with application configuration
      *
      * @return array<array<array<string>>>
-     * @phpstan-return array{view_helpers: array{aliases: non-empty-array<string, class-string>, factories: non-empty-array<class-string, class-string>}}
+     * @phpstan-return array{view_helpers: array{aliases: non-empty-array<string, class-string>, factories: non-empty-array<class-string, class-string>}, view_manager: array{template_map: array{logger-template: string|false}}}
      *
      * @throws void
      */
@@ -33,6 +33,9 @@ final class Module implements ConfigProviderInterface
 
         return [
             'view_helpers' => $provider->getViewHelperConfig(),
+            'view_manager' => [
+                'template_map' => $provider->getTemplates()['map'],
+            ],
         ];
     }
 }

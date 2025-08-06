@@ -40,13 +40,27 @@ final class ConfigProviderTest extends TestCase
     }
 
     /** @throws Exception */
+    public function testGetTemplateConfig(): void
+    {
+        $object          = new ConfigProvider();
+        $templatesConfig = $object->getTemplates();
+
+        self::assertIsArray($templatesConfig);
+
+        self::assertArrayHasKey('map', $templatesConfig);
+        $maps = $templatesConfig['map'];
+        self::assertIsArray($maps);
+        self::assertArrayHasKey('logger-template', $maps);
+    }
+
+    /** @throws Exception */
     public function testInvoke(): void
     {
         $object = new ConfigProvider();
         $config = $object();
 
         self::assertIsArray($config);
-        self::assertCount(1, $config);
+        self::assertCount(2, $config);
         self::assertArrayHasKey('view_helpers', $config);
 
         $viewHelperConfig = $config['view_helpers'];
@@ -62,5 +76,16 @@ final class ConfigProviderTest extends TestCase
         $aliases = $viewHelperConfig['aliases'];
         self::assertIsArray($aliases);
         self::assertArrayHasKey('jsLogger', $aliases);
+
+        self::assertArrayHasKey('templates', $config);
+
+        $templatesConfig = $config['templates'];
+
+        self::assertIsArray($templatesConfig);
+
+        self::assertArrayHasKey('map', $templatesConfig);
+        $maps = $templatesConfig['map'];
+        self::assertIsArray($maps);
+        self::assertArrayHasKey('logger-template', $maps);
     }
 }
