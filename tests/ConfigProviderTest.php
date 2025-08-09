@@ -17,6 +17,8 @@ use Mimmi20\LaminasView\JsLogger\View\Helper\JsLogger;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 
+use function realpath;
+
 final class ConfigProviderTest extends TestCase
 {
     /** @throws Exception */
@@ -51,6 +53,8 @@ final class ConfigProviderTest extends TestCase
         $maps = $templatesConfig['map'];
         self::assertIsArray($maps);
         self::assertArrayHasKey('logger-template', $maps);
+        self::assertIsString($maps['logger-template']);
+        self::assertSame(realpath(__DIR__ . '/../template/logger.phtml'), $maps['logger-template']);
     }
 
     /** @throws Exception */
@@ -87,5 +91,7 @@ final class ConfigProviderTest extends TestCase
         $maps = $templatesConfig['map'];
         self::assertIsArray($maps);
         self::assertArrayHasKey('logger-template', $maps);
+        self::assertIsString($maps['logger-template']);
+        self::assertSame(realpath(__DIR__ . '/../template/logger.phtml'), $maps['logger-template']);
     }
 }
