@@ -16,13 +16,15 @@ namespace Mimmi20\LaminasView\JsLogger;
 use Mimmi20\LaminasView\JsLogger\View\Helper\JsLogger;
 use Mimmi20\LaminasView\JsLogger\View\Helper\JsLoggerFactory;
 
+use function realpath;
+
 final class ConfigProvider
 {
     /**
      * Returns configuration from file
      *
      * @return array<array<array<string>>>
-     * @phpstan-return array{view_helpers: array{aliases: non-empty-array<string, class-string>, factories: non-empty-array<class-string, class-string>}}
+     * @phpstan-return array{view_helpers: array{aliases: non-empty-array<string, class-string>, factories: non-empty-array<class-string, class-string>}, templates: array{map: array{logger-template: string|false}}}
      *
      * @throws void
      */
@@ -30,6 +32,7 @@ final class ConfigProvider
     {
         return [
             'view_helpers' => $this->getViewHelperConfig(),
+            'templates' => $this->getTemplates(),
         ];
     }
 
@@ -49,6 +52,23 @@ final class ConfigProvider
             ],
             'factories' => [
                 JsLogger::class => JsLoggerFactory::class,
+            ],
+        ];
+    }
+
+    /**
+     * Returns the templates configuration
+     *
+     * @return array<array<string>>
+     * @phpstan-return array{map: array{logger-template: string|false}}
+     *
+     * @throws void
+     */
+    public function getTemplates(): array
+    {
+        return [
+            'map' => [
+                'logger-template' => realpath(__DIR__ . '/../template/logger.phtml'),
             ],
         ];
     }

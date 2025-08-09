@@ -74,6 +74,6 @@ final class JsLogger extends AbstractHelper
 
         assert(is_string($url), 'expected string, got ' . get_debug_type($url));
 
-        return $view->render(__DIR__ . '/../../../template/logger.phtml', ['url' => $url]);
+        return $view->render('logger-template', ['url' => $url]);
     }
 }
